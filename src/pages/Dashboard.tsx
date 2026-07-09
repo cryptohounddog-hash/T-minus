@@ -1,11 +1,35 @@
+import { useMemo } from 'react';
+import { GridLayout, useContainerWidth } from 'react-grid-layout';
+import type { Layout } from 'react-grid-layout';
 import { useStore } from '../store/useStore';
-import WidgetRenderer from '../components/widgets/WidgetRenderer';
+import WidgetShell from '../components/widgets/WidgetShell';
+import WidgetContent from '../components/widgets/WidgetRenderer';
 import StatusBar from '../components/StatusBar';
+import { GRID_COLS, ROW_HEIGHT, GRID_MARGIN } from '../utils/layout';
 
 export default function Dashboard() {
-  const { widgets, text, designMode } = useStore();
-  const visible = widgets.filter((w) => !w.hidden).sort((a, b) => a.order - b.order);
+  const { widgets, text, designMode, bulkUpdateLayout } = useStore();
+  const visible = useMemo(() => widgets.filter((w) => !w.hidden), [widgets]);
   const today = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
+  const { width, containerRef, mounted } = useContainerWidth({ measureBeforeMount: true });
+
+  const layout: Layout = useMemo(
+    () =>
+      visible.map((w) => ({
+        i: w.id,
+        x: w.layout.x,
+        y: w.layout.y,
+        w: w.layout.w,
+        h: w.layout.h,
+        minW: 2,
+        minH: 4,
+      })),
+    [visible]
+  );
+
+  function handleLayoutChange(newLayout: Layout) {
+    bulkUpdateLayout(newLayout.map((item) => ({ id: item.i, layout: { x: item.x, y: item.y, w: item.w, h: item.h } })));
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -23,17 +47,27 @@ export default function Dashboard() {
 
       {designMode && (
         <div className="rounded-xl px-4 py-2 text-[12px] text-center font-medium" style={{ background: 'color-mix(in srgb, var(--accent) 14%, transparent)', border: '1px solid color-mix(in srgb, var(--accent) 40%, transparent)', color: 'var(--accent)' }}>
-          Design mode is on — use the arrows to move widgets, ↔ to resize, and × to hide. Click "Done Editing" when finished.
+          Design mode is on — drag any widget to move it anywhere, drag its bottom-right corner to resize, and use × to hide it. Click "Done Editing" when finished.
         </div>
       )}
 
-      <div
-        className="grid gap-4"
-        style={{ gridTemplateColumns: 'repeat(12, minmax(0, 1fr))', gridAutoRows: '224px', gridAutoFlow: 'row dense' }}
-      >
-        {visible.map((widget) => (
-          <WidgetRenderer key={widget.id} widget={widget} />
-        ))}
+      <div ref={containerRef}>
+        {mounted && visible.length > 0 && (
+          <GridLayout
+            width={width}
+            layout={layout}
+            onLayoutChange={handleLayoutChange}
+            gridConfig={{ cols: GRID_COLS, rowHeight: ROW_HEIGHT, margin: [GRID_MARGIN, GRID_MARGIN], containerPadding: [0, 0] }}
+            dragConfig={{ enabled: designMode, cancel: '.no-drag' }}
+            resizeConfig={{ enabled: designMode, handles: ['se'] }}
+          >
+            {visible.map((widget) => (
+              <WidgetShell key={widget.id} widget={widget}>
+                <WidgetContent widget={widget} />
+              </WidgetShell>
+            ))}
+          </GridLayout>
+        )}
       </div>
 
       {visible.length === 0 && (

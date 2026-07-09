@@ -1,8 +1,6 @@
-import { useStore } from '../../store/useStore';
 import { useNow } from '../../hooks/useNow';
 import { getCountdownParts, pad2, formatFriendlyDate, formatTime } from '../../utils/date';
 import type { Widget } from '../../types';
-import WidgetShell from './WidgetShell';
 
 function TimeBlock({ value, label }: { value: number; label: string }) {
   return (
@@ -69,13 +67,3 @@ export function CountdownBody({ widget }: { widget: Widget }) {
   );
 }
 
-export default function CountdownWidget({ widget }: { widget: Widget }) {
-  const { designMode } = useStore();
-  return (
-    <WidgetShell widget={widget}>
-      <div className={designMode ? 'pointer-events-none' : ''}>
-        <CountdownBody widget={widget} />
-      </div>
-    </WidgetShell>
-  );
-}

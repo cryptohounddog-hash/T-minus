@@ -1,5 +1,5 @@
 import type { Widget } from '../../types';
-import CountdownWidget from './CountdownWidget';
+import { CountdownBody } from './CountdownWidget';
 import ClockWidget from './ClockWidget';
 import CalendarWidget from './CalendarWidget';
 import ProgressWidget from './ProgressWidget';
@@ -7,14 +7,15 @@ import NinetyDayWidget from './NinetyDayWidget';
 import ChecklistWidget from './ChecklistWidget';
 import { QuoteWidget, TextWidget, ImageWidget } from './MiscWidgets';
 
-export default function WidgetRenderer({ widget }: { widget: Widget }) {
+/** Renders just a widget's inner content (no chrome) — meant to be wrapped in <WidgetShell>. */
+export default function WidgetContent({ widget }: { widget: Widget }) {
   switch (widget.type) {
     case 'countdown':
-      return <CountdownWidget widget={widget} />;
+      return <CountdownBody widget={widget} />;
     case 'clock':
       return <ClockWidget widget={widget} />;
     case 'calendar':
-      return <CalendarWidget widget={widget} />;
+      return <CalendarWidget />;
     case 'progress':
     case 'savings':
     case 'reading':

@@ -1,45 +1,36 @@
-import type { ReactNode } from 'react';
+import { forwardRef, type ReactNode, type CSSProperties, type HTMLAttributes } from 'react';
 import { useStore } from '../../store/useStore';
-import type { Widget, WidgetSize } from '../../types';
+import type { Widget } from '../../types';
 
-const SPANS: Record<WidgetSize, { col: number; row: number }> = {
-  sm: { col: 3, row: 1 },
-  md: { col: 4, row: 1 },
-  wide: { col: 6, row: 1 },
-  lg: { col: 8, row: 1 },
-  tall: { col: 4, row: 2 },
-};
+const BARE_TYPES = new Set(['clock', 'quote', 'image']);
 
-export function widgetGridStyle(size: WidgetSize): React.CSSProperties {
-  const s = SPANS[size];
-  return { gridColumn: `span ${s.col}`, gridRow: `span ${s.row}` };
-}
-
-export default function WidgetShell({
-  widget,
-  children,
-  bare = false,
-  footer,
-}: {
+interface WidgetShellProps extends HTMLAttributes<HTMLDivElement> {
   widget: Widget;
   children: ReactNode;
-  bare?: boolean;
-  footer?: ReactNode;
-}) {
-  const { designMode, moveWidget, cycleWidgetSize, hideWidget } = useStore();
+  style?: CSSProperties;
+}
+
+const WidgetShell = forwardRef<HTMLDivElement, WidgetShellProps>(function WidgetShell(
+  { widget, children, className, style, ...rest },
+  ref
+) {
+  const { designMode, hideWidget } = useStore();
   const accent = widget.accent ?? 'var(--accent)';
+  const bare = BARE_TYPES.has(widget.type);
 
   return (
     <div
-      style={{ ...widgetGridStyle(widget.size), ['--w-accent' as string]: accent }}
-      className="relative group"
+      ref={ref}
+      className={`${className ?? ''} group`.trim()}
+      style={{ ...style, ['--w-accent' as string]: accent }}
+      {...rest}
     >
       <div
-        className="panel h-full flex flex-col overflow-hidden"
+        className={`panel h-full w-full flex flex-col overflow-hidden ${designMode ? 'cursor-grab active:cursor-grabbing' : ''}`}
         style={{ borderColor: 'color-mix(in srgb, var(--w-accent) 38%, transparent)' }}
       >
         {!bare && (
-          <div className="flex items-center gap-2 px-4 pt-3.5 pb-1">
+          <div className="flex items-center gap-2 px-4 pt-3.5 pb-1 shrink-0">
             <span className="text-base leading-none" style={{ color: 'var(--w-accent)' }}>
               {widget.icon}
             </span>
@@ -51,42 +42,31 @@ export default function WidgetShell({
             </div>
           </div>
         )}
-        <div className={bare ? 'flex-1 min-h-0' : 'flex-1 min-h-0 px-4 pb-3.5 pt-1'}>{children}</div>
-        {footer && <div className="px-4 pb-3.5">{footer}</div>}
+        <div
+          className={`${bare ? 'flex-1 min-h-0' : 'flex-1 min-h-0 px-4 pb-3.5 pt-1'} ${designMode ? 'pointer-events-none select-none' : ''}`}
+        >
+          {children}
+        </div>
       </div>
 
       {designMode && (
-        <div className="absolute inset-0 rounded-2xl bg-black/55 backdrop-blur-[1px] flex items-center justify-center gap-1.5 z-20">
-          <button
-            title="Move left"
-            className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-sm flex items-center justify-center"
-            onClick={() => moveWidget(widget.id, 'left')}
-          >
-            ←
-          </button>
-          <button
-            title="Resize"
-            className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-sm flex items-center justify-center"
-            onClick={() => cycleWidgetSize(widget.id)}
-          >
-            ↔
-          </button>
-          <button
-            title="Move right"
-            className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-sm flex items-center justify-center"
-            onClick={() => moveWidget(widget.id, 'right')}
-          >
-            →
-          </button>
+        <>
+          <div className="absolute inset-0 rounded-2xl bg-black/25 pointer-events-none z-10" />
           <button
             title="Hide widget"
-            className="w-8 h-8 rounded-lg bg-red-500/20 hover:bg-red-500/35 border border-red-400/40 text-sm flex items-center justify-center text-red-200"
-            onClick={() => hideWidget(widget.id)}
+            className="no-drag absolute top-2 right-2 w-7 h-7 rounded-lg bg-red-500/25 hover:bg-red-500/45 border border-red-400/50 text-sm flex items-center justify-center text-red-100 z-20"
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              hideWidget(widget.id);
+            }}
           >
             ×
           </button>
-        </div>
+        </>
       )}
     </div>
   );
-}
+});
+
+export default WidgetShell;

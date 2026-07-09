@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import type {
   AppState,
   Widget,
-  WidgetSize,
+  WidgetLayout,
   TemplateId,
   ThemeConfig,
   TextConfig,
@@ -17,8 +17,7 @@ import type {
 } from '../types';
 import { createPreset } from '../data/templates';
 import { makeId } from '../utils/id';
-
-const SIZE_ORDER: WidgetSize[] = ['sm', 'md', 'wide', 'lg'];
+import { findOpenSlot, sizeToWH } from '../utils/layout';
 
 interface StoreState extends AppState {
   activePage: PageId;
@@ -31,13 +30,13 @@ interface StoreState extends AppState {
   updateText: (patch: Partial<TextConfig>) => void;
   updateProfile: (patch: Partial<ProfileConfig>) => void;
 
-  addWidget: (widget: Omit<Widget, 'id' | 'order' | 'hidden'>) => void;
+  addWidget: (widget: Omit<Widget, 'id' | 'order' | 'hidden' | 'layout'>) => void;
   updateWidget: (id: string, patch: Partial<Widget>) => void;
   removeWidget: (id: string) => void;
   hideWidget: (id: string) => void;
   showWidget: (id: string) => void;
-  moveWidget: (id: string, dir: 'left' | 'right') => void;
-  cycleWidgetSize: (id: string) => void;
+  updateWidgetLayout: (id: string, layout: WidgetLayout) => void;
+  bulkUpdateLayout: (layouts: { id: string; layout: WidgetLayout }[]) => void;
   resetLayout: () => void;
   toggleChecklistItem: (widgetId: string, itemId: string) => void;
 
@@ -85,9 +84,19 @@ export const useStore = create<StoreState>()(
       updateProfile: (patch) => set((s) => ({ profile: { ...s.profile, ...patch } })),
 
       addWidget: (widget) =>
-        set((s) => ({
-          widgets: [...s.widgets, { ...widget, id: makeId(), order: nextOrder(s.widgets), hidden: false }],
-        })),
+        set((s) => {
+          const { w, h } = sizeToWH(widget.size);
+          const { x, y } = findOpenSlot(
+            s.widgets.filter((wd) => !wd.hidden).map((wd) => wd.layout),
+            w
+          );
+          return {
+            widgets: [
+              ...s.widgets,
+              { ...widget, id: makeId(), order: nextOrder(s.widgets), hidden: false, layout: { x, y, w, h } },
+            ],
+          };
+        }),
       updateWidget: (id, patch) =>
         set((s) => ({ widgets: s.widgets.map((w) => (w.id === id ? { ...w, ...patch } : w)) })),
       removeWidget: (id) => set((s) => ({ widgets: s.widgets.filter((w) => w.id !== id) })),
@@ -95,34 +104,13 @@ export const useStore = create<StoreState>()(
         set((s) => ({ widgets: s.widgets.map((w) => (w.id === id ? { ...w, hidden: true } : w)) })),
       showWidget: (id) =>
         set((s) => ({ widgets: s.widgets.map((w) => (w.id === id ? { ...w, hidden: false } : w)) })),
-      moveWidget: (id, dir) =>
+      updateWidgetLayout: (id, layout) =>
+        set((s) => ({ widgets: s.widgets.map((w) => (w.id === id ? { ...w, layout } : w)) })),
+      bulkUpdateLayout: (layouts) =>
         set((s) => {
-          const visible = [...s.widgets].filter((w) => !w.hidden).sort((a, b) => a.order - b.order);
-          const idx = visible.findIndex((w) => w.id === id);
-          if (idx === -1) return s;
-          const swapIdx = dir === 'left' ? idx - 1 : idx + 1;
-          if (swapIdx < 0 || swapIdx >= visible.length) return s;
-          const a = visible[idx];
-          const b = visible[swapIdx];
-          const orderA = a.order;
-          const orderB = b.order;
-          return {
-            widgets: s.widgets.map((w) => {
-              if (w.id === a.id) return { ...w, order: orderB };
-              if (w.id === b.id) return { ...w, order: orderA };
-              return w;
-            }),
-          };
+          const byId = new Map(layouts.map((l) => [l.id, l.layout]));
+          return { widgets: s.widgets.map((w) => (byId.has(w.id) ? { ...w, layout: byId.get(w.id)! } : w)) };
         }),
-      cycleWidgetSize: (id) =>
-        set((s) => ({
-          widgets: s.widgets.map((w) => {
-            if (w.id !== id) return w;
-            const i = SIZE_ORDER.indexOf(w.size === 'tall' ? 'lg' : w.size);
-            const next = SIZE_ORDER[(i + 1) % SIZE_ORDER.length];
-            return { ...w, size: next };
-          }),
-        })),
       resetLayout: () => {
         const id = get().template;
         const preset = createPreset(id);

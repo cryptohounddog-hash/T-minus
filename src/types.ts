@@ -73,6 +73,13 @@ export type WidgetType =
 
 export type WidgetSize = 'sm' | 'md' | 'lg' | 'wide' | 'tall';
 
+export interface WidgetLayout {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
 export interface ChecklistItem {
   id: string;
   label: string;
@@ -87,6 +94,7 @@ export interface Widget {
   icon: string;
   accent?: string;
   size: WidgetSize;
+  layout: WidgetLayout;
   hidden: boolean;
   order: number;
   ctaLabel?: string;

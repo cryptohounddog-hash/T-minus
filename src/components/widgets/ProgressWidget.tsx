@@ -1,5 +1,4 @@
 import type { Widget } from '../../types';
-import WidgetShell from './WidgetShell';
 
 function formatValue(v: number, unit?: string): string {
   if (unit === '$') return `$${v.toLocaleString()}`;
@@ -12,7 +11,6 @@ export default function ProgressWidget({ widget }: { widget: Widget }) {
   const pct = Math.min(100, Math.round((current / (target || 1)) * 100));
 
   return (
-    <WidgetShell widget={widget}>
       <div className="flex flex-col h-full justify-between gap-2">
         <div>
           <div className="flex items-baseline gap-1.5">
@@ -46,6 +44,5 @@ export default function ProgressWidget({ widget }: { widget: Widget }) {
           </div>
         )}
       </div>
-    </WidgetShell>
   );
 }

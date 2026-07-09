@@ -1,6 +1,7 @@
 import type { AppState, NavItem, Widget } from '../types';
 import { fromNow, isoDateFromNow } from '../utils/date';
 import { makeId } from '../utils/id';
+import { packLayout, sizeToWH } from '../utils/layout';
 
 const adultNav: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
@@ -30,26 +31,45 @@ const studentNav: NavItem[] = [
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
 
+/** Height override (in grid rows) to pass as `layout` on a `w()` call for content-heavy widgets. */
+function hOverride(h: number): Widget['layout'] {
+  return { x: 0, y: 0, w: 0, h };
+}
+
 function w(partial: Partial<Widget> & Pick<Widget, 'type' | 'title' | 'icon' | 'size' | 'order'>): Widget {
   return {
     id: makeId(),
     hidden: false,
+    layout: { x: 0, y: 0, w: 0, h: 0 },
     ...partial,
   };
 }
 
+/** Assigns each widget a packed x/y/w/h in place, based on its `size` (and an optional
+ * height override passed via `layout.h` in the `w()` call) and array order. */
+function layoutWidgets(widgets: Widget[]): Widget[] {
+  const packed = packLayout(
+    widgets.map((wd) => {
+      const wh = sizeToWH(wd.size);
+      return { id: wd.id, w: wh.w, h: wd.layout.h || wh.h };
+    })
+  );
+  for (const wd of widgets) wd.layout = packed[wd.id];
+  return widgets;
+}
+
 export function createAdultPreset(): AppState {
-  const widgets: Widget[] = [
+  const widgets: Widget[] = layoutWidgets([
     w({ type: 'countdown', title: 'Preaching at Joshua Tabernacle', subtitle: 'Sunday Service', icon: '⛪', size: 'sm', order: 0, accent: 'var(--accent-3)', targetDate: fromNow(2, 10, 0), ctaLabel: 'Message Prep In Progress', category: 'faith' }),
     w({ type: 'countdown', title: 'Preaching at Taylortown Church', subtitle: 'Sermon Series: Faith In Action', icon: '⛪', size: 'sm', order: 1, accent: 'var(--accent)', targetDate: fromNow(9, 11, 30), ctaLabel: 'Sermon Series: Faith In Action', category: 'faith' }),
     w({ type: 'clock', title: 'Command Clock', icon: '🕐', size: 'tall', order: 2, text: 'Stay Focused', extraValue: 'Your future is in your hands.' }),
     w({ type: 'calendar', title: 'Calendar', icon: '📅', size: 'tall', order: 3 }),
     w({ type: 'countdown', title: 'Birthday', subtitle: 'Leveling Up!', icon: '🎂', size: 'sm', order: 4, accent: '#f59e0b', targetDate: fromNow(137, 0, 0), category: 'personal' }),
-    w({ type: 'countdown', title: 'Graduation', subtitle: 'Master of Divinity', icon: '🎓', size: 'md', order: 5, accent: 'var(--accent)', targetDate: fromNow(23, 10, 0), current: 76, target: 100, extraLabel: 'On Track', category: 'school', ctaLabel: 'MISSION CRITICAL' }),
+    w({ type: 'countdown', title: 'Graduation', subtitle: 'Master of Divinity', icon: '🎓', size: 'md', order: 5, accent: 'var(--accent)', targetDate: fromNow(23, 10, 0), current: 76, target: 100, extraLabel: 'On Track', category: 'school', ctaLabel: 'MISSION CRITICAL', layout: hOverride(9) }),
     w({ type: 'countdown', title: 'Christmas', subtitle: 'The Season of Joy', icon: '🎄', size: 'sm', order: 6, accent: '#22c55e', targetDate: fromNow(210, 0, 0), category: 'personal' }),
-    w({ type: 'ninetyday', title: '90-Day Run', subtitle: 'Personal Best', icon: '🏃', size: 'md', order: 7, accent: '#22c55e', startDate: isoDateFromNow(-24), totalDays: 90, category: 'health' }),
-    w({ type: 'reading', title: 'Reading Goal', subtitle: '24 Books in 2026', icon: '📖', size: 'md', order: 8, accent: 'var(--accent-3)', current: 14, target: 24, unit: 'Books Read', extraLabel: 'Current Book', extraValue: 'Atomic Habits', extraSub: 'by James Clear', category: 'personal' }),
-    w({ type: 'savings', title: 'Savings Goal', subtitle: 'Financial Freedom Fund', icon: '💵', size: 'md', order: 9, accent: 'var(--accent)', current: 7250, target: 10000, unit: '$', category: 'finance' }),
+    w({ type: 'ninetyday', title: '90-Day Run', subtitle: 'Personal Best', icon: '🏃', size: 'md', order: 7, accent: '#22c55e', startDate: isoDateFromNow(-24), totalDays: 90, category: 'health', layout: hOverride(7) }),
+    w({ type: 'reading', title: 'Reading Goal', subtitle: '24 Books in 2026', icon: '📖', size: 'md', order: 8, accent: 'var(--accent-3)', current: 14, target: 24, unit: 'Books Read', extraLabel: 'Current Book', extraValue: 'Atomic Habits', extraSub: 'by James Clear', category: 'personal', layout: hOverride(9) }),
+    w({ type: 'savings', title: 'Savings Goal', subtitle: 'Financial Freedom Fund', icon: '💵', size: 'md', order: 9, accent: 'var(--accent)', current: 7250, target: 10000, unit: '$', category: 'finance', layout: hOverride(7) }),
     w({
       type: 'checklist', title: "Today's Missions", icon: '🎯', size: 'md', order: 10, accent: 'var(--accent)',
       items: [
@@ -59,8 +79,9 @@ export function createAdultPreset(): AppState {
         { id: makeId(), label: 'Finish Sermon Outline', done: false },
         { id: makeId(), label: 'Read 30 Pages', done: true },
       ],
+      layout: hOverride(9),
     }),
-  ];
+  ]);
 
   const events = [
     { id: makeId(), date: isoDateFromNow(2), title: 'Preaching at Joshua Tabernacle', time: '10:00 AM', category: 'faith', color: 'var(--accent-3)' },
@@ -129,7 +150,7 @@ export function createAdultPreset(): AppState {
 }
 
 export function createStudentPreset(): AppState {
-  const widgets: Widget[] = [
+  const widgets: Widget[] = layoutWidgets([
     w({ type: 'countdown', title: 'Math Exam', subtitle: 'Algebra II', icon: '🧮', size: 'sm', order: 0, accent: 'var(--accent-2)', targetDate: fromNow(2, 8, 0), ctaLabel: 'View Study Plan', category: 'school' }),
     w({ type: 'clock', title: 'Command Clock', icon: '🕐', size: 'tall', order: 1, text: 'Stay Focused', extraValue: 'Your future is in your hands.' }),
     w({ type: 'calendar', title: 'Calendar', icon: '📅', size: 'tall', order: 2 }),
@@ -147,9 +168,10 @@ export function createStudentPreset(): AppState {
         { id: makeId(), label: 'Spanish Vocab', done: false },
       ],
       category: 'school',
+      layout: hOverride(9),
     }),
-    w({ type: 'reading', title: 'Reading Goal', subtitle: 'Read more. Grow more.', icon: '📖', size: 'md', order: 8, accent: 'var(--accent-3)', current: 18, target: 24, unit: 'Books Completed', extraLabel: 'Current Book', extraValue: 'The Inheritance Games', extraSub: 'by Jennifer Lynn Barnes', category: 'personal' }),
-    w({ type: 'study', title: 'Study Hours', subtitle: 'GPA Goal: 4.0', icon: '📚', size: 'md', order: 9, accent: 'var(--accent)', current: 32, target: 40, unit: 'Study Hours This Month', extraLabel: 'Current GPA', extraValue: '3.6', category: 'school' }),
+    w({ type: 'reading', title: 'Reading Goal', subtitle: 'Read more. Grow more.', icon: '📖', size: 'md', order: 8, accent: 'var(--accent-3)', current: 18, target: 24, unit: 'Books Completed', extraLabel: 'Current Book', extraValue: 'The Inheritance Games', extraSub: 'by Jennifer Lynn Barnes', category: 'personal', layout: hOverride(9) }),
+    w({ type: 'study', title: 'Study Hours', subtitle: 'GPA Goal: 4.0', icon: '📚', size: 'md', order: 9, accent: 'var(--accent)', current: 32, target: 40, unit: 'Study Hours This Month', extraLabel: 'Current GPA', extraValue: '3.6', category: 'school', layout: hOverride(7) }),
     w({
       type: 'checklist', title: "Today's Missions", icon: '⭐', size: 'md', order: 10, accent: 'var(--accent-2)',
       items: [
@@ -159,8 +181,9 @@ export function createStudentPreset(): AppState {
         { id: makeId(), label: 'Call Grandma', done: false },
         { id: makeId(), label: 'Finish art project', done: true },
       ],
+      layout: hOverride(9),
     }),
-  ];
+  ]);
 
   const events = [
     { id: makeId(), date: isoDateFromNow(2), title: 'Math Exam - Algebra II', time: '8:00 AM', category: 'school', color: 'var(--accent-2)' },

@@ -50,7 +50,7 @@ export default function AddWidgetModal({ onClose }: { onClose: () => void }) {
 
   function submit() {
     if (!selected || !draft.title) return;
-    const base: Omit<Widget, 'id' | 'order' | 'hidden'> = {
+    const base: Omit<Widget, 'id' | 'order' | 'hidden' | 'layout'> = {
       type: selected.type,
       title: draft.title,
       subtitle: draft.subtitle,
