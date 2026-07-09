@@ -64,7 +64,7 @@ export default function App() {
 
   return (
     <div
-      className="h-screen w-screen flex relative"
+      className="h-full w-full flex relative"
       style={
         {
           '--accent': theme.accent,

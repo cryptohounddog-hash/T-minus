@@ -13,13 +13,16 @@
   box-sizing: border-box;
 }
 
-html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-body {
+/*
+ * #root is deliberately self-contained (fixed + inset:0) instead of relying on
+ * html/body resets. This lets the app be dropped into a single element on a
+ * page we don't otherwise control (e.g. a WordPress/OptimizePress HTML block)
+ * without fighting the host page's own margin, height chain, or scrolling.
+ */
+#root {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
   font-family: "Rajdhani", system-ui, sans-serif;
   background: radial-gradient(ellipse 120% 80% at 50% -10%, color-mix(in srgb, var(--accent-3) 18%, transparent), transparent),
     linear-gradient(160deg, var(--bg-from), var(--bg-to) 60%, #000);
@@ -48,7 +51,7 @@ body {
 }
 
 .starfield {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
