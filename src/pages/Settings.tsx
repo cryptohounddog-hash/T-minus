@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useStore } from '../store/useStore';
+import { useStore, sanitizeWidgets } from '../store/useStore';
 import Field from '../components/Field';
 import { readFileAsDataURL } from '../utils/file';
 import ThemesModal from '../components/ThemesModal';
@@ -318,7 +318,8 @@ function DataTab() {
     reader.onload = () => {
       try {
         const data = JSON.parse(reader.result as string);
-        const patch = Object.fromEntries(EXPORT_KEYS.filter((k) => k in data).map((k) => [k, data[k]]));
+        const patch = Object.fromEntries(EXPORT_KEYS.filter((k) => k in data).map((k) => [k, data[k]])) as Record<string, unknown>;
+        if (patch.widgets) patch.widgets = sanitizeWidgets(patch.widgets as never);
         useStore.setState({ ...patch, activePage: 'dashboard', designMode: false });
         setImportMsg('Dashboard imported successfully.');
       } catch {

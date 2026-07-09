@@ -17,7 +17,26 @@ import type {
 } from '../types';
 import { createPreset } from '../data/templates';
 import { makeId } from '../utils/id';
-import { findOpenSlot, sizeToWH } from '../utils/layout';
+import { findOpenSlot, packLayout, sizeToWH } from '../utils/layout';
+
+const VALID_SIZES = new Set(['sm', 'md', 'lg', 'wide', 'tall']);
+
+function hasValidLayout(w: Widget): boolean {
+  const l = w.layout;
+  return !!l && Number.isFinite(l.x) && Number.isFinite(l.y) && Number.isFinite(l.w) && Number.isFinite(l.h) && l.w > 0 && l.h > 0;
+}
+
+/** Repairs widget data saved by an older version of the app that predates the
+ * free-form grid layout (missing/invalid `layout`, or an unrecognized `size`).
+ * If everything already looks valid, the array is returned untouched so a
+ * user's custom drag-arranged layout is never disturbed unnecessarily. */
+export function sanitizeWidgets(widgets: Widget[] | undefined): Widget[] {
+  if (!Array.isArray(widgets)) return [];
+  const normalized = widgets.map((w) => (VALID_SIZES.has(w.size) ? w : { ...w, size: 'md' as const }));
+  if (normalized.every(hasValidLayout)) return normalized;
+  const packed = packLayout(normalized.map((w) => ({ id: w.id, ...sizeToWH(w.size) })));
+  return normalized.map((w) => ({ ...w, layout: packed[w.id] }));
+}
 
 interface StoreState extends AppState {
   activePage: PageId;
@@ -166,7 +185,12 @@ export const useStore = create<StoreState>()(
     }),
     {
       name: 't-minus-dashboard-storage',
-      version: 1,
+      version: 2,
+      migrate: (persistedState) => {
+        const state = persistedState as StoreState;
+        if (state?.widgets) state.widgets = sanitizeWidgets(state.widgets);
+        return state;
+      },
     }
   )
 );
