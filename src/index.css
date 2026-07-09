@@ -14,12 +14,13 @@
 }
 
 /*
- * #root is deliberately self-contained (fixed + inset:0) instead of relying on
- * html/body resets. This lets the app be dropped into a single element on a
- * page we don't otherwise control (e.g. a WordPress/OptimizePress HTML block)
+ * .tminus-app-root is a container main.tsx creates and appends directly to
+ * <body> (see main.tsx for why), deliberately self-contained (fixed + inset:0)
+ * instead of relying on html/body resets. This lets the app take over the
+ * full screen regardless of where its original mount point was embedded,
  * without fighting the host page's own margin, height chain, or scrolling.
  */
-#root {
+.tminus-app-root {
   position: fixed;
   inset: 0;
   z-index: 2147483000;
