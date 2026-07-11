@@ -25,11 +25,13 @@
   inset: 0;
   z-index: 2147483000;
   font-family: "Rajdhani", system-ui, sans-serif;
-  background: radial-gradient(ellipse 120% 80% at 50% -10%, color-mix(in srgb, var(--accent-3) 18%, transparent), transparent),
-    linear-gradient(160deg, var(--bg-from), var(--bg-to) 60%, #000);
-  color: #e8e6f5;
+  background: radial-gradient(ellipse 120% 80% at 50% -10%, color-mix(in srgb, var(--accent-3) 30%, transparent), transparent),
+    linear-gradient(160deg, var(--bg-from), var(--bg-to) 65%, #0a0818);
+  color: #f3f1fb;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
+  filter: brightness(1.12) saturate(1.2);
+  font-size: 15px;
 }
 
 .font-display {
@@ -71,20 +73,20 @@
 }
 
 .panel {
-  background: linear-gradient(160deg, rgba(20, 16, 40, 0.65), rgba(10, 8, 24, 0.75));
-  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  background: linear-gradient(160deg, rgba(46, 38, 82, 0.68), rgba(24, 19, 48, 0.78));
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
   border-radius: 16px;
   backdrop-filter: blur(12px);
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.02) inset, 0 8px 30px rgba(0,0,0,0.35);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset, 0 8px 30px rgba(0,0,0,0.35);
   position: relative;
 }
 
 .panel-glow {
-  box-shadow: 0 0 24px -6px color-mix(in srgb, var(--accent) 55%, transparent), 0 8px 30px rgba(0,0,0,0.4);
+  box-shadow: 0 0 28px -4px color-mix(in srgb, var(--accent) 65%, transparent), 0 8px 30px rgba(0,0,0,0.4);
 }
 
 .glow-text {
-  text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 70%, transparent);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 85%, transparent);
 }
 
 .accent-gradient-text {
@@ -102,8 +104,8 @@
   color: var(--accent);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   border-radius: 10px;
-  padding: 8px 16px;
-  font-size: 12px;
+  padding: 9px 17px;
+  font-size: 13.5px;
   transition: all 0.15s ease;
   cursor: pointer;
   white-space: nowrap;
@@ -121,8 +123,8 @@
   color: #04030a;
   background: linear-gradient(90deg, var(--accent), var(--accent-3));
   border-radius: 10px;
-  padding: 9px 18px;
-  font-size: 12px;
+  padding: 10px 20px;
+  font-size: 13.5px;
   cursor: pointer;
   transition: all 0.15s ease;
   box-shadow: 0 0 18px -2px color-mix(in srgb, var(--accent) 70%, transparent);
@@ -137,12 +139,12 @@ input, textarea, select {
 }
 
 input[type="text"], input[type="date"], input[type="time"], input[type="number"], input[type="email"], textarea, select {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.18);
   border-radius: 8px;
   padding: 7px 10px;
-  color: #e8e6f5;
-  font-size: 14px;
+  color: #f3f1fb;
+  font-size: 15px;
   outline: none;
   width: 100%;
 }
@@ -215,3 +217,56 @@ input[type="color"]::-webkit-color-swatch {
   border-bottom: 2.5px solid var(--accent);
   filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent) 70%, transparent));
 }
+
+/*
+ * Global "bigger & brighter" pass.
+ *
+ * Components throughout the app use Tailwind arbitrary-value utilities like
+ * `text-[11px]` and opacity utilities like `text-white/40` for a dense,
+ * compact look. Rather than hand-editing font sizes and opacities in every
+ * component, these rules override those utility classes app-wide. This works
+ * reliably (regardless of source order) because Tailwind's generated
+ * utilities live inside `@layer utilities`, and per the CSS cascade layers
+ * spec, unlayered rules like these always win over layered ones.
+ */
+.text-\[8\.5px\] { font-size: 11px; }
+.text-\[9px\] { font-size: 11.5px; }
+.text-\[9\.5px\] { font-size: 12px; }
+.text-\[10px\] { font-size: 12.5px; }
+.text-\[10\.5px\] { font-size: 13px; }
+.text-\[11px\] { font-size: 14px; }
+.text-\[11\.5px\] { font-size: 14.5px; }
+.text-\[12px\] { font-size: 15px; }
+.text-\[12\.5px\] { font-size: 15.5px; }
+.text-\[13px\] { font-size: 16px; }
+.text-\[13\.5px\] { font-size: 16.5px; }
+.text-\[14px\] { font-size: 17px; }
+.text-\[15px\] { font-size: 18px; }
+.text-\[16px\] { font-size: 19.5px; }
+.text-\[19px\] { font-size: 23px; }
+.text-\[20px\] { font-size: 24px; }
+.text-\[22px\] { font-size: 26px; }
+.text-\[24px\] { font-size: 29px; }
+.text-\[26px\] { font-size: 31px; }
+.text-\[28px\] { font-size: 33px; }
+
+.text-white\/15 { color: rgba(255, 255, 255, 0.28); }
+.text-white\/20 { color: rgba(255, 255, 255, 0.34); }
+.text-white\/30 { color: rgba(255, 255, 255, 0.44); }
+.text-white\/35 { color: rgba(255, 255, 255, 0.5); }
+.text-white\/40 { color: rgba(255, 255, 255, 0.56); }
+.text-white\/45 { color: rgba(255, 255, 255, 0.62); }
+.text-white\/50 { color: rgba(255, 255, 255, 0.67); }
+.text-white\/55 { color: rgba(255, 255, 255, 0.7); }
+.text-white\/60 { color: rgba(255, 255, 255, 0.74); }
+.text-white\/70 { color: rgba(255, 255, 255, 0.82); }
+.text-white\/75 { color: rgba(255, 255, 255, 0.86); }
+.text-white\/80 { color: rgba(255, 255, 255, 0.9); }
+.text-white\/85 { color: rgba(255, 255, 255, 0.94); }
+
+.bg-white\/5 { background-color: rgba(255, 255, 255, 0.09); }
+.bg-white\/10 { background-color: rgba(255, 255, 255, 0.15); }
+.border-white\/5 { border-color: rgba(255, 255, 255, 0.12); }
+.border-white\/10 { border-color: rgba(255, 255, 255, 0.2); }
+.border-white\/15 { border-color: rgba(255, 255, 255, 0.26); }
+.border-white\/30 { border-color: rgba(255, 255, 255, 0.44); }
