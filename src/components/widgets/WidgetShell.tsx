@@ -1,4 +1,4 @@
-import { forwardRef, type ReactNode, type CSSProperties, type HTMLAttributes } from 'react';
+import { Children, forwardRef, type ReactNode, type CSSProperties, type HTMLAttributes } from 'react';
 import { useStore } from '../../store/useStore';
 import type { Widget } from '../../types';
 
@@ -17,6 +17,17 @@ const WidgetShell = forwardRef<HTMLDivElement, WidgetShellProps>(function Widget
   const { designMode, hideWidget } = useStore();
   const accent = widget.accent ?? 'var(--accent)';
   const bare = BARE_TYPES.has(widget.type);
+
+  // react-grid-layout's resize handles are injected by cloning this element and
+  // appending extra nodes onto its `children` prop (see react-resizable's
+  // Resizable.js: `children: [...original children, ...resizeHandles]`). The
+  // real widget content is always the first child; anything after it is a
+  // resize handle. Those handles must render as *direct* children of the root
+  // div below (matching the library's `.react-grid-item > .react-resizable-handle`
+  // CSS selector) and outside the pointer-events-none content wrapper, or
+  // they end up unstyled, unpositioned, and unclickable.
+  const childArray = Children.toArray(children);
+  const [content, ...resizeHandles] = childArray;
 
   return (
     <div
@@ -45,7 +56,7 @@ const WidgetShell = forwardRef<HTMLDivElement, WidgetShellProps>(function Widget
         <div
           className={`${bare ? 'flex-1 min-h-0' : 'flex-1 min-h-0 px-4 pb-3.5 pt-1'} ${designMode ? 'pointer-events-none select-none' : ''}`}
         >
-          {children}
+          {content}
         </div>
       </div>
 
@@ -65,6 +76,8 @@ const WidgetShell = forwardRef<HTMLDivElement, WidgetShellProps>(function Widget
           </button>
         </>
       )}
+
+      {resizeHandles}
     </div>
   );
 });
