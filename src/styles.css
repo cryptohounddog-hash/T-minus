@@ -7,7 +7,21 @@
   --accent-3: #a855f7;
   --bg-from: #04030d;
   --bg-to: #050818;
+  --wp-admin-offset: 0px;
   color-scheme: dark;
+}
+
+/* When this dashboard is embedded in a WordPress page, WordPress adds
+   `admin-bar` to <body> for logged-in users viewing the front end with
+   the toolbar enabled. Offset the whole app below it so the dashboard
+   header doesn't render underneath the toolbar. */
+body.admin-bar {
+  --wp-admin-offset: 32px;
+}
+@media screen and (max-width: 782px) {
+  body.admin-bar {
+    --wp-admin-offset: 46px;
+  }
 }
 
 * {
@@ -53,9 +67,9 @@ body {
 
 .app-root {
   position: fixed;
-  inset: 0;
+  inset: var(--wp-admin-offset) 0 0 0;
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - var(--wp-admin-offset));
   overflow: hidden;
   background: radial-gradient(
       ellipse 120% 80% at 50% -10%,

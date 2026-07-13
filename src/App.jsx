@@ -54,14 +54,31 @@ function PageRouter() {
 export default function App() {
   const theme = useStore((s) => s.theme);
   const title = useStore((s) => s.text.title);
+  const template = useStore((s) => s.template);
+  const designMode = useStore((s) => s.designMode);
 
   useEffect(() => {
     document.title = title;
   }, [title]);
 
+  // The decorative masterpiece CSS keys off body classes (matching how
+  // the original enhancer script tagged the real page body when this
+  // dashboard is embedded in WordPress).
+  useEffect(() => {
+    document.body.classList.toggle("master-adult", template === "adult");
+    document.body.classList.toggle("master-student", template === "student");
+    return () => {
+      document.body.classList.remove("master-adult", "master-student");
+    };
+  }, [template]);
+
+  useEffect(() => {
+    document.body.classList.toggle("master-design-mode", designMode);
+  }, [designMode]);
+
   return (
     <div
-      className="app-root"
+      className="app-root tminus-app-root"
       style={{
         "--accent": theme.accent,
         "--accent-2": theme.accent2,
@@ -71,10 +88,13 @@ export default function App() {
       }}
     >
       <div className="starfield" />
-      <div className="app-body">
+      <div className="app-body master-shell">
+        <div className="master-nebula" />
+        <div className="master-horizon" />
+        <div className="master-planet" />
         <NowProvider>
           <Sidebar />
-          <main className="main">
+          <main className="main master-main">
             <Header />
             <PageRouter />
           </main>

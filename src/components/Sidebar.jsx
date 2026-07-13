@@ -11,7 +11,7 @@ export default function Sidebar() {
   const xpPct = Math.min(100, Math.round((profile.xp / profile.xpMax) * 100));
 
   return (
-    <aside className="sidebar">
+    <aside className="sidebar master-sidebar">
       <button className="sidebar-brand" onClick={() => setActivePage("dashboard")}>
         <span className="sidebar-brand-emoji">{text.brandEmoji}</span>
         <div>
@@ -37,7 +37,7 @@ export default function Sidebar() {
 
       <div className="sidebar-spacer" />
 
-      <div className="mission-box panel">
+      <div className="mission-box panel master-side-mission">
         <div className="mission-box-label">You are in</div>
         <div className="mission-box-title font-display accent-gradient-text">{text.missionBoxTitle}</div>
         <div className="mission-box-text">{text.missionBoxText}</div>

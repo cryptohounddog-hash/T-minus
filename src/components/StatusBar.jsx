@@ -25,7 +25,7 @@ export default function StatusBar() {
   const focusTier = vitals.focusLevel >= 75 ? "HIGH" : vitals.focusLevel >= 45 ? "MEDIUM" : "LOW";
 
   return (
-    <div className="status-bar panel">
+    <div className="status-bar panel master-footer">
       {template === "student" ? (
         <>
           <StatusItem icon="🔥" label={`${vitals.streakDays} Days`} sub="Streak" />

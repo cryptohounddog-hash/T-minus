@@ -29,7 +29,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="page-header">
+      <div className="page-header master-header">
         <div>
           {isDashboard ? (
             <>

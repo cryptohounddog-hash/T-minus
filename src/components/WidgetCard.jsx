@@ -2,6 +2,7 @@ import React, { forwardRef, useState } from "react";
 import { useStore } from "../store.js";
 import WidgetRenderer, { HEADERLESS_TYPES } from "./WidgetRenderer.jsx";
 import WidgetModal from "./WidgetModal.jsx";
+import { getMasterWidgetClass } from "../masterClasses.js";
 
 // Wraps a single dashboard widget with its panel chrome plus the
 // edit / hide / remove controls. forwardRef + prop passthrough is
@@ -13,12 +14,18 @@ const WidgetCard = forwardRef(function WidgetCard({ widget, style, className, ch
   const [editing, setEditing] = useState(false);
   const accent = widget.accent || "var(--accent)";
   const showHeader = !HEADERLESS_TYPES.has(widget.type);
+  const masterClass = getMasterWidgetClass(widget);
 
   return (
     <div
       ref={ref}
       style={{ ...style, "--w-accent": accent }}
-      className={(className || "") + " widget-shell" + (designMode ? " design-mode" : "")}
+      className={
+        (className || "") +
+        " widget-shell master-widget " +
+        masterClass +
+        (designMode ? " design-mode" : "")
+      }
       {...rest}
     >
       <div className="panel widget-panel">

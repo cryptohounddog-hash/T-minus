@@ -27,7 +27,7 @@ export default function Dashboard() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      <div className="panel" style={{ padding: "10px 20px", display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", fontSize: 12, color: "rgba(255,255,255,0.6)" }}>
+      <div className="panel master-status" style={{ padding: "10px 20px", display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", fontSize: 12, color: "rgba(255,255,255,0.6)" }}>
         <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <span style={{ color: "var(--accent)" }}>◈</span> {text.focusToday}
         </span>
@@ -37,7 +37,7 @@ export default function Dashboard() {
         <span>{text.welcomeMessage} 💗</span>
       </div>
 
-      <div ref={ref}>
+      <div className="master-grid-holder" ref={ref}>
         {width > 0 && visible.length > 0 && (
           <GridLayout
             className="layout"
@@ -67,7 +67,7 @@ export default function Dashboard() {
         )}
       </div>
 
-      <div className="quote-banner panel">
+      <div className="quote-banner panel master-quote">
         <span className="quote-mark">❝</span>
         <p>{text.quote}</p>
         {text.quoteAuthor && <p className="quote-author">— {text.quoteAuthor}</p>}
