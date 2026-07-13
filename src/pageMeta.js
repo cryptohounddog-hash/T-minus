@@ -1,0 +1,15 @@
+export const PAGE_META = {
+  missions: { label: "Mission Control", tagline: "Your life. Your missions. Your countdown." },
+  calendar: { label: "Calendar", tagline: "Everything coming up, in one view." },
+  goals: { label: "Goals", tagline: "What you are working toward." },
+  habits: { label: "Habits", tagline: "Daily disciplines. Streaks. Consistency." },
+  journal: { label: "Journal", tagline: "Reflect. Process. Remember." },
+  achievements: { label: "Achievements", tagline: "Milestones you have already hit." },
+  stats: { label: "Stats", tagline: "The numbers behind your progress." },
+  school: { label: "School", tagline: "Exams, homework, and everything academic." },
+  friends: { label: "Friends", tagline: "The people in your corner." },
+  resources: { label: "Resources", tagline: "Links, docs, and study material." },
+  messages: { label: "Messages", tagline: "Stay in the loop." },
+  finances: { label: "Finances", tagline: "Track what you are building financially." },
+  settings: { label: "Settings", tagline: "Make this dashboard yours." },
+};
