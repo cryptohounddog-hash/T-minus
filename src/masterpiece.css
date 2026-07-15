@@ -303,7 +303,7 @@ body.master-adult .master-launch .panel::after {
 .master-clock .clock-face {
   width: min(260px,86%) !important;
   box-shadow:
-    0 0 36px -4px color-mix(in srgb,var(--accent) 72%,transparent),
+    0 0 36px -4px color-mix(in srgb,var(--w-accent, var(--accent)) 72%,transparent),
     0 0 72px -28px color-mix(in srgb,var(--accent-3) 70%,transparent),
     inset 0 0 34px -10px rgba(255,255,255,.12) !important;
   border-width: 2px !important;

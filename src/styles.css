@@ -704,8 +704,8 @@ input[type="color"]::-webkit-color-swatch {
   width: min(200px, 92%);
   aspect-ratio: 1/1;
   margin: 0 auto;
-  border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
-  box-shadow: 0 0 30px -6px color-mix(in srgb, var(--accent) 55%, transparent),
+  border: 2px solid color-mix(in srgb, var(--w-accent, var(--accent)) 55%, transparent);
+  box-shadow: 0 0 30px -6px color-mix(in srgb, var(--w-accent, var(--accent)) 55%, transparent),
     inset 0 0 20px -8px color-mix(in srgb, var(--accent-3) 60%, transparent);
 }
 .clock-tick {
@@ -730,8 +730,8 @@ input[type="color"]::-webkit-color-swatch {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
+  background: var(--w-accent, var(--accent));
+  box-shadow: 0 0 8px var(--w-accent, var(--accent));
 }
 
 /* checklist */
