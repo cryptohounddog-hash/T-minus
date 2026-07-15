@@ -32,7 +32,15 @@ export default function ClockWidget({ widget }) {
         <div className="clock-center" />
       </div>
       <div style={{ textAlign: "center" }}>
-        <div className="font-display glow-text" style={{ fontWeight: 900, fontSize: 19, color: "var(--accent)" }}>
+        <div
+          className="font-display glow-text"
+          style={{
+            fontWeight: 900,
+            fontSize: 19,
+            color: "var(--w-accent, var(--accent))",
+            textShadow: "0 0 14px color-mix(in srgb, var(--w-accent, var(--accent)) 80%, transparent)",
+          }}
+        >
           {time} <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{meridiem}</span>
         </div>
       </div>

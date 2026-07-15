@@ -5,6 +5,13 @@ stamped into the top of `dist/index.html` on every build. Add a new section
 at the top for each shipped change; `scripts/inject-version-header.mjs`
 reads the topmost section and embeds it in the build output.
 
+## v1.2 — 2026-07-15
+Status: READY FOR BROWSER / WORDPRESS TESTING
+Changes in this version:
+  1. Clock widget's digital time text color and glow now also follow
+     the widget's own accent color (the ring fix in v1.1 only covered
+     the circular face, not the digital readout below it).
+
 ## v1.1 — 2026-07-15
 Status: READY FOR BROWSER / WORDPRESS TESTING
 Changes in this version:
