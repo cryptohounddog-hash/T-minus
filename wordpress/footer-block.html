@@ -1,0 +1,97 @@
+<!--
+============================================================
+TMINUSDASHBOARD.COM - Main Dashboard Footer Strip
+VERSION: 3  |  Current.
+
+HISTORY:
+  v1 - Original build: carved 40px of space at the bottom of the
+       app for a fixed footer bar using an "inset" CSS override.
+       40px was too tight - clipped the app's own status bar.
+  v2 - Increased reserved space to 58px, but this made things
+       look worse, not better.
+  v3 - Found the real cause: the app's own CSS explicitly sets
+       height:calc(100vh - var(--wp-admin-offset)) in addition
+       to using inset. When both are present, the explicit
+       height wins and ignores the bottom value from inset -
+       which is why v1/v2's number changes didn't actually
+       resize anything correctly. Fixed by explicitly overriding
+       BOTH inset AND height together, so the app's real
+       rendered height actually shrinks to make room.
+
+CRITICAL: This is a SEPARATE, ADDITIONAL Custom HTML block.
+Add it as a NEW block on the main dashboard page, positioned
+AFTER the existing huge Custom HTML block that has the React
+app. Do NOT paste this into the same block as the app, and do
+NOT modify anything in that existing block. This block does not
+touch a single line of the existing app code - it only adds a
+thin CSS-carved strip at the bottom of the screen and a small
+fixed footer bar to sit in it.
+
+Scoped using the .tminus-app-root class (unique to this app's
+root element) rather than a page-id, so it only ever affects
+this specific page.
+
+DEPENDENCY NOTE: This block relies on two things staying stable
+in the main React app (src/App.jsx and src/masterpiece.css):
+  - the ".tminus-app-root" class on the app's root element
+  - the "--wp-admin-offset" CSS custom property
+If either is ever renamed in the app, update the selectors here
+to match, or this footer will stop fitting correctly.
+============================================================
+-->
+<style>
+/* Shrink the app's full-screen area by 40px at the bottom to
+   make room for the footer strip below it. Uses the app's own
+   --wp-admin-offset variable so it still respects being logged
+   into WordPress. */
+.tminus-app-root{
+  inset: var(--wp-admin-offset, 0px) 0 58px 0 !important;
+  height: calc(100vh - var(--wp-admin-offset, 0px) - 58px) !important;
+}
+
+.tmd-mainpage-footer{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 58px;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: rgba(3,7,18,.96);
+  border-top: 1px solid rgba(0,229,255,.22);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+}
+.tmd-mainpage-footer a{
+  color: #00E5FF;
+  text-decoration: none;
+}
+.tmd-mainpage-footer a:hover{
+  text-decoration: underline;
+}
+.tmd-mainpage-footer span{
+  color: rgba(146,167,195,.4);
+}
+.tmd-mainpage-footer .tmd-copyright{
+  color: rgba(146,167,195,.7);
+}
+</style>
+
+<div class="tmd-mainpage-footer">
+  <a href="https://tminusdashboard.com/">Dashboard</a>
+  <span>|</span>
+  <a href="https://tminusdashboard.com/faq/">FAQ</a>
+  <span>|</span>
+  <a href="https://tminusdashboard.com/privacy-policy/">Privacy Policy</a>
+  <span>|</span>
+  <a href="mailto:countdown@tminusdashboard.com">Contact Us</a>
+  <span>|</span>
+  <span class="tmd-copyright">&copy; <span id="tmd-mainfooter-year"></span> T-Minus Dashboard</span>
+</div>
+<script>
+  var tmdMainFooterYear = document.getElementById('tmd-mainfooter-year');
+  if(tmdMainFooterYear){ tmdMainFooterYear.textContent = new Date().getFullYear(); }
+</script>
