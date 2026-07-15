@@ -5,6 +5,14 @@ stamped into the top of `dist/index.html` on every build. Add a new section
 at the top for each shipped change; `scripts/inject-version-header.mjs`
 reads the topmost section and embeds it in the build output.
 
+## v1.3 — 2026-07-15
+Status: READY FOR BROWSER / WORDPRESS TESTING
+Changes in this version:
+  1. Removed a leftover rocket emoji that was overlaid on top of the
+     Mission Mode sidebar photo. This was a stray remnant from an
+     earlier transcription of the bundle, before it had been removed
+     in the user's own v2.3 fix — restored to match that removal.
+
 ## v1.2 — 2026-07-15
 Status: READY FOR BROWSER / WORDPRESS TESTING
 Changes in this version:

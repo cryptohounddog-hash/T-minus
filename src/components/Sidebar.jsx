@@ -41,7 +41,6 @@ export default function Sidebar() {
         <div className="mission-box-label">You are in</div>
         <div className="mission-box-title font-display accent-gradient-text">{text.missionBoxTitle}</div>
         <div className="mission-box-text">{text.missionBoxText}</div>
-        <div style={{ fontSize: 22 }}>🚀</div>
       </div>
 
       <button className="profile-btn" onClick={() => setActivePage("settings")}>
