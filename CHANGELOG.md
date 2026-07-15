@@ -5,6 +5,13 @@ stamped into the top of `dist/index.html` on every build. Add a new section
 at the top for each shipped change; `scripts/inject-version-header.mjs`
 reads the topmost section and embeds it in the build output.
 
+## v1.4 — 2026-07-15
+Status: READY FOR BROWSER / WORDPRESS TESTING
+Changes in this version:
+  1. Clock widget's hour/minute hands and the top 12-o'clock dot now
+     also follow the widget's own accent color, instead of staying on
+     the two fixed global theme colors.
+
 ## v1.3 — 2026-07-15
 Status: READY FOR BROWSER / WORDPRESS TESTING
 Changes in this version:

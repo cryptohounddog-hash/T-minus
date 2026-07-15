@@ -21,14 +21,14 @@ export default function ClockWidget({ widget }) {
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, padding: "8px 12px" }}>
       <div className="clock-face">
-        <div style={{ position: "absolute", top: 6, left: "50%", transform: "translateX(-50%)", width: 10, height: 10, borderRadius: "50%", background: "var(--accent-2)", boxShadow: "0 0 8px var(--accent-2)" }} />
+        <div style={{ position: "absolute", top: 6, left: "50%", transform: "translateX(-50%)", width: 10, height: 10, borderRadius: "50%", background: "var(--w-accent, var(--accent))", boxShadow: "0 0 8px var(--w-accent, var(--accent))" }} />
         {TICKS.map((t) => (
           <div key={t.hour} className="clock-tick" style={{ left: `${t.x}%`, top: `${t.y}%` }}>
             {t.hour}
           </div>
         ))}
-        <div className="clock-hand" style={{ width: 3, height: "24%", background: "var(--accent-2)", transform: `translateX(-50%) rotate(${hourDeg}deg)`, boxShadow: "0 0 6px var(--accent-2)" }} />
-        <div className="clock-hand" style={{ width: 2, height: "33%", background: "var(--accent)", transform: `translateX(-50%) rotate(${minuteDeg}deg)`, boxShadow: "0 0 6px var(--accent)" }} />
+        <div className="clock-hand" style={{ width: 3, height: "24%", background: "var(--w-accent, var(--accent))", transform: `translateX(-50%) rotate(${hourDeg}deg)`, boxShadow: "0 0 6px var(--w-accent, var(--accent))" }} />
+        <div className="clock-hand" style={{ width: 2, height: "33%", background: "var(--w-accent, var(--accent))", transform: `translateX(-50%) rotate(${minuteDeg}deg)`, boxShadow: "0 0 6px var(--w-accent, var(--accent))" }} />
         <div className="clock-center" />
       </div>
       <div style={{ textAlign: "center" }}>
