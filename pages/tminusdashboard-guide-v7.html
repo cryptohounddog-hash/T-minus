@@ -1,0 +1,275 @@
+<!--
+============================================================
+TMINUSDASHBOARD.COM - How to Use / Guide Page
+VERSION: 7  |  Current.
+
+HISTORY:
+  v1 - Original build: sections covering Getting Started,
+       Adding/Editing Widgets, all 12 widget types, Design Mode
+       (drag/resize/edit/hide), sidebar navigation, Themes vs
+       Templates, backup/restore, privacy, and contact.
+  v2 - Width fix + footer merged in, scoped to the wrong page ID
+       (99) - did nothing.
+  v3 - Corrected page ID to 101 - still didn't fix the white
+       margins.
+  v4 - Added a guess about OptimizePress's row wrapper causing
+       the issue - this was NOT verified and turned out to be
+       the wrong direction.
+  v5 - Checked DevTools directly: NONE of this file's CSS rules
+       were present on the live page at all, not even the basic
+       ones that are identical to the working Privacy Policy
+       page. This means it was never actually a CSS targeting
+       problem - the code itself isn't making it onto the live
+       page. Stripped back to the EXACT same structure that is
+       confirmed working on the Privacy Policy page (page-id-3),
+       just with page-id-139 (which at the time was still an
+       unconfirmed guess).
+  v6 - Found the REAL page ID (139) directly from the live page's
+       URL bar (?page_id=139) and confirmed in the actual body
+       class ("page-id-139"). Both 99 and 101 were wrong guesses
+       tried earlier - 139 is the confirmed, correct ID.
+  v7 - Added "Guide" self-link to this page's own footer, for consistency with how "Dashboard" self-links on the dashboard page.
+
+THIS IS ONE COMPLETE PASTE. Replace the entire Custom HTML
+block's content with this whole file - do not add it alongside
+anything else already in there.
+
+NEXT VERSION WILL BE: v3. Every edit gets a bumped whole
+number here, with a one-line history note, per agreement.
+============================================================
+-->
+<style>
+/* Dark background for the whole page, matching the content box */
+body.page-id-139{
+  background:#050914 !important;
+}
+
+/* Remove Astra's centered container width cap so the background
+   can span the full page width. Only targets specific known
+   Astra wrapper elements - NOT a wildcard on all child divs. */
+body.page-id-139 .ast-container,
+body.page-id-139 #content,
+body.page-id-139 .site-content,
+body.page-id-139 #primary{
+  max-width:100% !important;
+  width:100% !important;
+  padding-left:0 !important;
+  padding-right:0 !important;
+}
+</style>
+<style>
+.tmd-guide-wrap{
+  max-width:800px;
+  margin:0 auto;
+  padding:48px 24px 80px;
+  font-family:'Inter',system-ui,sans-serif;
+  color:#EAF6FF;
+  background:#050914;
+  line-height:1.65;
+}
+.tmd-guide-wrap h1{
+  font-family:'Inter',sans-serif;
+  font-weight:800;
+  font-size:32px;
+  color:#ffffff;
+  margin:0 0 8px;
+  text-shadow:0 0 18px rgba(0,229,255,.30);
+}
+.tmd-guide-intro{
+  font-size:15.5px;
+  color:#92A7C3;
+  margin:0 0 32px;
+}
+.tmd-guide-section{
+  margin-bottom:36px;
+}
+.tmd-guide-section h2{
+  font-size:19px;
+  font-weight:700;
+  color:#00E5FF;
+  margin:0 0 12px;
+  padding-bottom:8px;
+  border-bottom:1px solid rgba(0,229,255,.22);
+}
+.tmd-guide-section p{
+  font-size:15px;
+  color:#EAF6FF;
+  margin:0 0 12px;
+}
+.tmd-guide-section ul{
+  margin:0 0 12px;
+  padding-left:20px;
+}
+.tmd-guide-section li{
+  font-size:15px;
+  color:#EAF6FF;
+  margin-bottom:8px;
+}
+.tmd-widget-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:14px 0 4px;
+}
+@media(max-width:600px){
+  .tmd-widget-grid{grid-template-columns:1fr;}
+}
+.tmd-widget-card{
+  background:linear-gradient(135deg, rgba(7,15,32,.72), rgba(10,20,45,.42));
+  border:1px solid rgba(0,229,255,.22);
+  border-radius:12px;
+  padding:14px 16px;
+}
+.tmd-widget-card h3{
+  font-size:14px;
+  font-weight:700;
+  color:#00E5FF;
+  margin:0 0 4px;
+}
+.tmd-widget-card p{
+  font-size:13px;
+  color:#92A7C3;
+  margin:0;
+}
+.tmd-guide-tip{
+  background:rgba(0,229,255,.08);
+  border-left:3px solid #00E5FF;
+  border-radius:8px;
+  padding:12px 16px;
+  font-size:14px;
+  color:#EAF6FF;
+  margin:12px 0;
+}
+.tmd-guide-tip strong{
+  color:#00E5FF;
+}
+.tmd-guide-wrap a{
+  color:#00E5FF;
+  text-decoration:underline;
+}
+</style>
+
+<div class="tmd-guide-wrap">
+  <h1>How to Use T-Minus Dashboard</h1>
+  <p class="tmd-guide-intro">A quick guide to building your own dashboard, widget by widget.</p>
+
+  <div class="tmd-guide-section">
+    <h2>Getting Started</h2>
+    <p>There's no account to create and nothing to sign up for. Your dashboard is built and saved right in your own browser, starting from a default layout you can fully customize.</p>
+  </div>
+
+  <div class="tmd-guide-section">
+    <h2>Adding and Editing Widgets</h2>
+    <p>Click <strong>+ Add Widget</strong> at the top of your dashboard to open the widget picker. Choose a type, fill in the details, and it's added to your board automatically.</p>
+    <p>To change a widget later, hover over it and click the pencil (✎) icon to edit it, or the × icon to remove it from your dashboard.</p>
+  </div>
+
+  <div class="tmd-guide-section">
+    <h2>Widget Types</h2>
+    <div class="tmd-widget-grid">
+      <div class="tmd-widget-card"><h3>⏱️ Countdown</h3><p>Counts down to any date and time you set.</p></div>
+      <div class="tmd-widget-card"><h3>🕐 Clock</h3><p>A live analog and digital clock, always current.</p></div>
+      <div class="tmd-widget-card"><h3>📅 Calendar</h3><p>A month view showing your upcoming events.</p></div>
+      <div class="tmd-widget-card"><h3>🎯 Goal Progress</h3><p>Track progress toward any goal with a current/target value.</p></div>
+      <div class="tmd-widget-card"><h3>🏃 90-Day Challenge</h3><p>A day-by-day tracker for a fixed-length challenge.</p></div>
+      <div class="tmd-widget-card"><h3>✅ Checklist</h3><p>A simple list of tasks or daily missions you can check off.</p></div>
+      <div class="tmd-widget-card"><h3>💬 Quote / Scripture</h3><p>A card for a favorite quote, verse, or piece of encouragement.</p></div>
+      <div class="tmd-widget-card"><h3>💵 Savings Goal</h3><p>Track progress toward a dollar amount.</p></div>
+      <div class="tmd-widget-card"><h3>📖 Reading Goal</h3><p>Track books completed toward a yearly goal.</p></div>
+      <div class="tmd-widget-card"><h3>📚 Study Goal</h3><p>Track study hours or a GPA-style goal.</p></div>
+      <div class="tmd-widget-card"><h3>📝 Custom Text</h3><p>A freeform note card for anything you want to keep visible.</p></div>
+      <div class="tmd-widget-card"><h3>🖼️ Image Card</h3><p>Upload a photo or logo to display on your board.</p></div>
+    </div>
+  </div>
+
+  <div class="tmd-guide-section">
+    <h2>Rearranging Your Dashboard</h2>
+    <p>Click <strong>✏️ Design Widgets</strong> at the top of your dashboard to enter Design Mode. While it's on:</p>
+    <ul>
+      <li><strong>Drag</strong> any widget to move it to a new spot</li>
+      <li><strong>Drag the bottom-right corner</strong> of a widget to resize it</li>
+      <li>Use the <strong>✎</strong> and <strong>×</strong> icons on a widget to edit or hide it</li>
+    </ul>
+    <p>Click <strong>✓ Done Editing</strong> when you're finished to lock your layout back in place.</p>
+    <div class="tmd-guide-tip"><strong>Tip:</strong> If your layout ever gets messy, open <strong>Settings → Widgets & Layout</strong> and click <strong>Reset Widget Layout</strong> to snap everything back into a clean arrangement.</div>
+  </div>
+
+  <div class="tmd-guide-section">
+    <h2>Navigating Your Dashboard</h2>
+    <p>The sidebar on the left gives you dedicated pages beyond the main dashboard view — including Missions, Calendar, Goals, Habits, Journal, Resources, Achievements, and Stats. Each one gives you a focused, full view of that part of your dashboard.</p>
+  </div>
+
+  <div class="tmd-guide-section">
+    <h2>Themes and Templates</h2>
+    <p>Click <strong>🎨 Themes</strong> to open your color and template options:</p>
+    <ul>
+      <li><strong>Color Themes</strong> only change your accent colors and background — your widgets, layout, and text all stay exactly as they are. You can save your own custom color combinations to switch back to later.</li>
+      <li><strong>Templates</strong> are a bigger change — switching templates replaces your sidebar sections and starter widgets, so use this only if you want a fresh starting point.</li>
+    </ul>
+  </div>
+
+  <div class="tmd-guide-section">
+    <h2>Backing Up Your Dashboard</h2>
+    <p>Since your dashboard lives in your browser rather than an online account, it's tied to this specific browser and device. Go to <strong>Settings → Data</strong> to:</p>
+    <ul>
+      <li><strong>Export</strong> a backup file of your entire dashboard</li>
+      <li><strong>Import</strong> a backup to restore it, or move it to another device</li>
+    </ul>
+    <div class="tmd-guide-tip"><strong>Tip:</strong> If you ever plan to switch browsers or get a new device, export a backup first so you don't lose your setup.</div>
+  </div>
+
+  <div class="tmd-guide-section">
+    <h2>Your Privacy</h2>
+    <p>We don't collect names, emails, or personal information — your dashboard data stays in your own browser. Full details are in our <a href="https://tminusdashboard.com/privacy-policy/">Privacy Policy</a>.</p>
+  </div>
+
+  <div class="tmd-guide-section">
+    <h2>Still Have Questions?</h2>
+    <p>Check our <a href="https://tminusdashboard.com/faq/">FAQ page</a>, or reach out anytime at <a href="mailto:countdown@tminusdashboard.com">countdown@tminusdashboard.com</a>.</p>
+  </div>
+</div>
+
+<style>
+.tmd-footer{
+  background:rgba(3,7,18,.94);
+  border-top:1px solid rgba(0,229,255,.18);
+  color:#92A7C3;
+  text-align:center;
+  padding:28px 24px;
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:13.5px;
+}
+.tmd-footer a{
+  color:#00E5FF;
+  text-decoration:none;
+}
+.tmd-footer a:hover{
+  text-decoration:underline;
+}
+.tmd-footer-links{
+  margin-bottom:8px;
+}
+.tmd-footer-links span{
+  margin:0 8px;
+  color:rgba(146,167,195,.4);
+}
+</style>
+
+<div class="tmd-footer">
+  <div class="tmd-footer-links">
+    <a href="https://tminusdashboard.com/">Dashboard</a>
+    <span>|</span>
+    <a href="https://tminusdashboard.com/get-started/">Guide</a>
+    <span>|</span>
+    <a href="https://tminusdashboard.com/faq/">FAQ</a>
+    <span>|</span>
+    <a href="https://tminusdashboard.com/privacy-policy/">Privacy Policy</a>
+    <span>|</span>
+    <a href="mailto:countdown@tminusdashboard.com">Contact Us</a>
+  </div>
+  <p style="margin:0;">&copy; <span id="tmd-footer-year"></span> T-Minus Dashboard. All rights reserved.</p>
+</div>
+<script>
+  var tmdFooterYear = document.getElementById('tmd-footer-year');
+  if(tmdFooterYear){ tmdFooterYear.textContent = new Date().getFullYear(); }
+</script>

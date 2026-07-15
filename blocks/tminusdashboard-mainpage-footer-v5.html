@@ -1,0 +1,139 @@
+<!--
+============================================================
+TMINUSDASHBOARD.COM - Main Dashboard Footer + Ad Strip
+VERSION: 5  |  Current.
+
+HISTORY:
+  v1 - Original build: carved 40px of space at the bottom of the
+       app for a fixed footer bar using an "inset" CSS override.
+       40px was too tight - clipped the app's own status bar.
+  v2 - Increased reserved space to 58px, but this made things
+       look worse, not better.
+  v3 - Found the real cause: the app's own CSS explicitly sets
+       height:calc(100vh - var(--wp-admin-offset)) in addition
+       to using inset. When both are present, the explicit
+       height wins and ignores the bottom value from inset -
+       which is why v1/v2's number changes didn't actually
+       resize anything correctly. Fixed by explicitly overriding
+       BOTH inset AND height together, so the app's real
+       rendered height actually shrinks to make room.
+  v4 - Added a dedicated ad strip (90px) sitting directly above
+       the footer (58px) - 148px reserved total. IMPORTANT: this
+       was deliberately merged into the SAME file as the footer,
+       not built as a separate additional block, because both
+       the footer and an ad strip need to control the same
+       .tminus-app-root sizing property - two separate blocks
+       doing that independently would silently fight each other
+       depending on load order. This file is the single source
+       of truth for both.
+  v5 - Added "Guide" link to the footer (tminusdashboard.com/get-started/) - the How to Use page was missing from the footer entirely.
+
+CRITICAL: This is a SEPARATE, ADDITIONAL Custom HTML block from
+the main app. Add it as a NEW block on the main dashboard page,
+positioned AFTER the existing huge Custom HTML block that has
+the React app. Do NOT paste this into the same block as the app,
+and do NOT modify anything in that existing block.
+
+If you already have the OLDER footer-only block (v3) on the
+page, REPLACE it entirely with this v4 file - don't add this as
+a third block alongside it, or the two will fight over the same
+app-sizing property again.
+
+Scoped using the .tminus-app-root class (unique to this app's
+root element) rather than a page-id, so it only ever affects
+this specific page.
+
+NEXT VERSION WILL BE: v5. Every edit gets a bumped whole
+number here, with a one-line history note, per agreement.
+============================================================
+-->
+<style>
+/* Reserve space for BOTH the footer (58px) and the new ad strip
+   (90px) at the bottom of the app - 148px combined. This is the
+   ONLY place in either block that sets this, avoiding two
+   separate blocks fighting over the same property. */
+.tminus-app-root{
+  inset: var(--wp-admin-offset, 0px) 0 148px 0 !important;
+  height: calc(100vh - var(--wp-admin-offset, 0px) - 148px) !important;
+}
+
+.tmd-ad-strip{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 58px;
+  height: 90px;
+  z-index: 999998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3,7,18,.90);
+  border-top: 1px solid rgba(0,229,255,.14);
+  overflow: hidden;
+}
+
+.tmd-mainpage-footer{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 58px;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: rgba(3,7,18,.96);
+  border-top: 1px solid rgba(0,229,255,.22);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+}
+.tmd-mainpage-footer a{
+  color: #00E5FF;
+  text-decoration: none;
+}
+.tmd-mainpage-footer a:hover{
+  text-decoration: underline;
+}
+.tmd-mainpage-footer span{
+  color: rgba(146,167,195,.4);
+}
+.tmd-mainpage-footer .tmd-copyright{
+  color: rgba(146,167,195,.7);
+}
+</style>
+
+<div class="tmd-ad-strip">
+  <!-- Paste your AdSense ad unit code here once you have a real
+       ad unit slot number (after AdSense finishes reviewing the
+       site). Example structure once you have it:
+
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-2372914901328738"
+       data-ad-slot="PASTE-YOUR-SLOT-ID-HERE"
+       data-ad-format="horizontal"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  -->
+</div>
+
+
+<div class="tmd-mainpage-footer">
+  <a href="https://tminusdashboard.com/">Dashboard</a>
+  <span>|</span>
+  <a href="https://tminusdashboard.com/get-started/">Guide</a>
+  <span>|</span>
+  <a href="https://tminusdashboard.com/faq/">FAQ</a>
+  <span>|</span>
+  <a href="https://tminusdashboard.com/privacy-policy/">Privacy Policy</a>
+  <span>|</span>
+  <a href="mailto:countdown@tminusdashboard.com">Contact Us</a>
+  <span>|</span>
+  <span class="tmd-copyright">&copy; <span id="tmd-mainfooter-year"></span> T-Minus Dashboard</span>
+</div>
+<script>
+  var tmdMainFooterYear = document.getElementById('tmd-mainfooter-year');
+  if(tmdMainFooterYear){ tmdMainFooterYear.textContent = new Date().getFullYear(); }
+</script>

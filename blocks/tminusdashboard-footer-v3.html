@@ -1,0 +1,67 @@
+<!--
+============================================================
+TMINUSDASHBOARD.COM - Site Footer (STANDALONE / GLOBAL VERSION)
+VERSION: 3  |  Current.
+
+HISTORY:
+  v1 - Original build: FAQ | Privacy Policy | Contact Us links,
+       auto-updating copyright year via inline script.
+  v2 - Added a "Dashboard" link (pointing to the root domain,
+       tminusdashboard.com) at the front of the link list.
+  v3 - Added "Guide" link (tminusdashboard.com/get-started/) - the How to Use page was missing from the footer entirely.
+
+NOTE: This is the standalone version meant for a SITE-WIDE
+global footer section in OptimizePress. A second copy of this
+same footer also lives appended inside tminusdashboard-faq-v2.html
+for that one page specifically - if the site-wide footer below
+gets used, that page-specific copy becomes redundant and should
+be removed to avoid a duplicate footer stacking on the FAQ page.
+
+NEXT VERSION WILL BE: v3. Every edit gets a bumped whole
+number here, with a one-line history note, per agreement.
+============================================================
+-->
+<style>
+.tmd-footer{
+  background:rgba(3,7,18,.94);
+  border-top:1px solid rgba(0,229,255,.18);
+  color:#92A7C3;
+  text-align:center;
+  padding:28px 24px;
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:13.5px;
+}
+.tmd-footer a{
+  color:#00E5FF;
+  text-decoration:none;
+}
+.tmd-footer a:hover{
+  text-decoration:underline;
+}
+.tmd-footer-links{
+  margin-bottom:8px;
+}
+.tmd-footer-links span{
+  margin:0 8px;
+  color:rgba(146,167,195,.4);
+}
+</style>
+
+<div class="tmd-footer">
+  <div class="tmd-footer-links">
+    <a href="https://tminusdashboard.com/">Dashboard</a>
+    <span>|</span>
+    <a href="https://tminusdashboard.com/get-started/">Guide</a>
+    <span>|</span>
+    <a href="https://tminusdashboard.com/faq/">FAQ</a>
+    <span>|</span>
+    <a href="https://tminusdashboard.com/privacy-policy/">Privacy Policy</a>
+    <span>|</span>
+    <a href="mailto:countdown@tminusdashboard.com">Contact Us</a>
+  </div>
+  <p style="margin:0;">&copy; <span id="tmd-footer-year"></span> T-Minus Dashboard. All rights reserved.</p>
+</div>
+<script>
+  var tmdFooterYear = document.getElementById('tmd-footer-year');
+  if(tmdFooterYear){ tmdFooterYear.textContent = new Date().getFullYear(); }
+</script>

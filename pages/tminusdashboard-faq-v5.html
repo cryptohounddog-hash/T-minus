@@ -1,0 +1,185 @@
+<!--
+============================================================
+TMINUSDASHBOARD.COM - FAQ Page
+VERSION: 5  |  Current.
+
+HISTORY:
+  v1 - Original build: 8 FAQ items covering what T-Minus
+       Dashboard is, account/data storage, one-time vs
+       recurring countdowns, display styles, privacy, cost,
+       and contact info.
+  v2 - Footer appended to this page's content block (Privacy
+       Policy | FAQ | Contact Us links + copyright line).
+  v3 - Width fix merged directly into THIS SAME file (dark page
+       background + removed Astra's container width cap on
+       page-id-85 only).
+  v4 - Added a "Dashboard" link to the footer, pointing to the
+       root domain (tminusdashboard.com) - previously there was
+       no way to get back to the main tool from this page.
+  v5 - Added "Guide" link to the footer (tminusdashboard.com/get-started/) - the How to Use page was missing from the footer entirely.
+
+THIS IS ONE COMPLETE PASTE. Replace the entire Custom HTML
+block's content with this whole file - do not add it alongside
+anything else already in there.
+
+NEXT VERSION WILL BE: v5. Every edit gets a bumped whole
+number here, with a one-line history note, per agreement.
+============================================================
+-->
+<style>
+/* Dark background for the whole page, matching the content boxes */
+body.page-id-85{
+  background:#050914 !important;
+}
+
+/* Remove Astra's centered container width cap so the background
+   (and the footer) can span the full page width. Only targets
+   specific known Astra wrapper elements - NOT a wildcard on all
+   child divs, since OptimizePress's own internal layout divs
+   need their original width/flex behavior to render correctly. */
+body.page-id-85 .ast-container,
+body.page-id-85 #content,
+body.page-id-85 .site-content,
+body.page-id-85 #primary{
+  max-width:100% !important;
+  width:100% !important;
+  padding-left:0 !important;
+  padding-right:0 !important;
+}
+</style>
+<style>
+.tmd-faq-wrap{
+  max-width:800px;
+  margin:0 auto;
+  padding:48px 24px 80px;
+  font-family:'Inter',system-ui,sans-serif;
+  color:#EAF6FF;
+  background:#050914;
+  line-height:1.65;
+}
+.tmd-faq-wrap h1{
+  font-family:'Inter',sans-serif;
+  font-weight:800;
+  font-size:32px;
+  color:#ffffff;
+  margin:0 0 8px;
+  text-shadow:0 0 18px rgba(0,229,255,.30);
+}
+.tmd-faq-intro{
+  font-size:15.5px;
+  color:#92A7C3;
+  margin:0 0 32px;
+}
+.tmd-faq-item{
+  background:linear-gradient(135deg, rgba(7,15,32,.72), rgba(10,20,45,.42));
+  border:1px solid rgba(0,229,255,.22);
+  border-radius:16px;
+  padding:20px 22px;
+  margin-bottom:14px;
+}
+.tmd-faq-item h3{
+  font-size:17px;
+  font-weight:700;
+  color:#00E5FF;
+  margin:0 0 8px;
+}
+.tmd-faq-item p{
+  font-size:15px;
+  color:#EAF6FF;
+  margin:0;
+}
+.tmd-faq-item a{
+  color:#00E5FF;
+  text-decoration:underline;
+}
+</style>
+
+<div class="tmd-faq-wrap">
+  <h1>Frequently Asked Questions</h1>
+  <p class="tmd-faq-intro">Everything you need to know about T-Minus Dashboard, in one place.</p>
+
+  <div class="tmd-faq-item">
+    <h3>What is T-Minus Dashboard?</h3>
+    <p>T-Minus Dashboard is a personal, customizable countdown and life-tracking board. Instead of one fixed layout, you build your own board out of widgets — a live clock, a calendar, one-time or recurring countdowns, progress bars, checklists, and more — arranged the way that makes sense for your own schedule, goals, or milestones.</p>
+  </div>
+
+  <div class="tmd-faq-item">
+    <h3>Do I need to create an account?</h3>
+    <p>No. T-Minus Dashboard works entirely in your browser. There's no sign-up, no login, and no personal information required to use it.</p>
+  </div>
+
+  <div class="tmd-faq-item">
+    <h3>Where is my dashboard saved?</h3>
+    <p>Your widgets, settings, and layout are saved locally in your own browser. That means your dashboard will be there the next time you visit on the same device and browser, but it isn't stored on our servers or tied to an account. If you switch browsers or devices, you'll need to rebuild your dashboard there.</p>
+  </div>
+
+  <div class="tmd-faq-item">
+    <h3>What's the difference between a one-time and a recurring countdown?</h3>
+    <p>A one-time countdown counts down to a single fixed date, like a graduation or a trip. A recurring countdown counts down to the next occurrence of something that repeats — like a weekly appointment — and automatically rolls forward to the next one once the date passes.</p>
+  </div>
+
+  <div class="tmd-faq-item">
+    <h3>Can I change how my dashboard looks?</h3>
+    <p>Yes. T-Minus Dashboard includes multiple display styles you can switch between, so your board can look the way you want it to.</p>
+  </div>
+
+  <div class="tmd-faq-item">
+    <h3>Is my data private?</h3>
+    <p>Yes. We don't collect names, emails, or personal information, and your dashboard configuration stays in your own browser rather than being sent to us. Full details are in our <a href="https://tminusdashboard.com/privacy-policy/">Privacy Policy</a>.</p>
+  </div>
+
+  <div class="tmd-faq-item">
+    <h3>Is T-Minus Dashboard free?</h3>
+    <p>Yes, T-Minus Dashboard is free to use.</p>
+  </div>
+
+  <div class="tmd-faq-item">
+    <h3>How do I get in touch?</h3>
+    <p>You can reach us anytime at <a href="mailto:countdown@tminusdashboard.com">countdown@tminusdashboard.com</a>.</p>
+  </div>
+</div>
+
+<style>
+.tmd-footer{
+  background:rgba(3,7,18,.94);
+  border-top:1px solid rgba(0,229,255,.18);
+  color:#92A7C3;
+  text-align:center;
+  padding:28px 24px;
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:13.5px;
+}
+.tmd-footer a{
+  color:#00E5FF;
+  text-decoration:none;
+}
+.tmd-footer a:hover{
+  text-decoration:underline;
+}
+.tmd-footer-links{
+  margin-bottom:8px;
+}
+.tmd-footer-links span{
+  margin:0 8px;
+  color:rgba(146,167,195,.4);
+}
+</style>
+
+<div class="tmd-footer">
+  <div class="tmd-footer-links">
+    <a href="https://tminusdashboard.com/">Dashboard</a>
+    <span>|</span>
+    <a href="https://tminusdashboard.com/get-started/">Guide</a>
+    <span>|</span>
+    <a href="https://tminusdashboard.com/faq/">FAQ</a>
+    <span>|</span>
+    <a href="https://tminusdashboard.com/privacy-policy/">Privacy Policy</a>
+    <span>|</span>
+    <a href="mailto:countdown@tminusdashboard.com">Contact Us</a>
+  </div>
+  <p style="margin:0;">&copy; <span id="tmd-footer-year"></span> T-Minus Dashboard. All rights reserved.</p>
+</div>
+<script>
+  var tmdFooterYear = document.getElementById('tmd-footer-year');
+  if(tmdFooterYear){ tmdFooterYear.textContent = new Date().getFullYear(); }
+</script>
